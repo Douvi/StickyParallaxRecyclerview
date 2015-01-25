@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/lib/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">StickyParallaxRecyclerview</string>
+    <!-- From: file:/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/lib/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
