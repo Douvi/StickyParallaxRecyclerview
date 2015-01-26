@@ -1,6 +1,6 @@
 # StickyParallaxRecyclerview
 
-![StickyParallaxRecyclerview](https://d13yacurqjgara.cloudfront.net/users/125056/screenshots/1785274/99miles-profile-light_1-1-4.gif)
+![StickyParallaxRecyclerview](https://raw.githubusercontent.com/Douvi/StickyParallaxRecyclerview/master/demo.gif)
 
 ### Usage:
 
