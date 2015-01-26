@@ -120,13 +120,11 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
         }
 
         public void bind(int section, int position){
-//            if (position == 20) {
-//                mText.setText("Row Section | blablba blkbaiub position blablba blkbaiub position blablba blkbaiub position blablba blkbaiub position :"+position);
-//            } else {
+            if (position == 20) {
+                mText.setText("Row Section | blablba blkbaiub position blablba blkbaiub position blablba blkbaiub position blablba blkbaiub position :"+position);
+            } else {
                 mText.setText("Row Section | position :"+position);
-//            }
-
-
+            }
         }
     }
 

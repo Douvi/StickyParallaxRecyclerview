@@ -3,7 +3,9 @@ package com.dovi.stickyparallaxrecyclerview.src.decoration;
 import android.graphics.Canvas;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.LongSparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,16 +15,97 @@ import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
 public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
+    enum SCROLL_TYPE{
+        DOWN, UP;
+    }
+
     protected int headerHeight = 0;
 
     protected ParallaxRecyclerAdapter mAdapter;
     protected int orientation = -1;
     protected final LongSparseArray<View> mHeaderViews = new LongSparseArray<View>();
-    protected  LinearLayoutManager layoutManager;
+    protected LinearLayoutManager layoutManager;
+    private SCROLL_TYPE curentScroll = SCROLL_TYPE.UP;
+    private RecyclerView.ViewHolder mViewHodlerFist;
+    private int positionY = -1;
+    private int positionLastItem = -1;
+    private String TAG = ViewHolderSectionDecoration.class.getSimpleName();
+    float initialX, initialY;
 
-    public ViewHolderSectionDecoration(ParallaxRecyclerAdapter mAdapter) {
+    public ViewHolderSectionDecoration(ParallaxRecyclerAdapter mAdapter, RecyclerView parent) {
         this.mAdapter = mAdapter;
+
+        parent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                int action = event.getActionMasked();
+
+                switch (action) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        initialX = event.getX();
+                        initialY = event.getY();
+
+                        Log.d(TAG, "Action was DOWN");
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        float finalX = event.getX();
+                        float finalY = event.getY();
+
+                        if (initialY < finalY) {
+//                            Log.d(TAG, "Up to Down swipe performed");
+                            curentScroll = SCROLL_TYPE.DOWN;
+                        }
+
+                        if (initialY > finalY) {
+                            Log.d(TAG, "Down to Up swipe performed");
+                            curentScroll = SCROLL_TYPE.UP;
+                        }
+
+                        initialX = event.getX();
+                        initialY = event.getY();
+                        break;
+
+//                    case MotionEvent.ACTION_UP:
+//
+//
+//                        Log.d(TAG, "Action was UP");
+//
+//                        if (initialX < finalX) {
+//                            Log.d(TAG, "Left to Right swipe performed");
+//                        }
+//
+//                        if (initialX > finalX) {
+//                            Log.d(TAG, "Right to Left swipe performed");
+//                        }
+//
+//                        if (initialY < finalY) {
+//                            Log.d(TAG, "Up to Down swipe performed");
+//                        }
+//
+//                        if (initialY > finalY) {
+//                            Log.d(TAG, "Down to Up swipe performed");
+//                        }
+//
+//                        break;
+
+                    case MotionEvent.ACTION_CANCEL:
+                        Log.d(TAG,"Action was CANCEL");
+                        break;
+
+//                    case MotionEvent.ACTION_OUTSIDE:
+//                        Log.d(TAG, "Movement occurred outside bounds of current screen element");
+//                        break;
+                }
+
+
+                return false;
+            }
+        });
     }
+
 
     @Override
     public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
@@ -32,6 +115,8 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         if (parent.getChildCount() > 0 && mAdapter.getItemCount() > 0) {
 
             int positionTop = layoutManager.findFirstVisibleItemPosition();
+//            scrollDirection(parent);
+
 
             final Section section = getHeader(positionTop);
 
@@ -40,23 +125,23 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
                 RecyclerView.ViewHolder nextViewHolder = getNextView(parent, positionTop);
 
-//                switch (curentScroll) {
-//                    case UP:{
-//                        do {
-//                            nextViewHolder = getNextView(parent, positionTop);
-//                            positionTop++;
-//                        } while (nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() < firstHeader.getHeight() + firstHeader.getTranslationY());
-//                        break;
-//                    }
-//                    case DOWN:
-//                    {
-//                        do {
-//                            nextViewHolder = getNextView(parent, positionTop);
-//                            positionTop++;
-//                        } while (nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() > firstHeader.getHeight() + firstHeader.getTranslationY());
-//                        break;
-//                    }
-//                }
+                switch (curentScroll) {
+                    case UP:{
+                        do {
+                            positionTop++;
+                            nextViewHolder = getNextView(parent, positionTop);
+                        } while (nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() < firstHeader.getHeight() + firstHeader.getTranslationY());
+                        break;
+                    }
+                    case DOWN:
+                    {
+                        do {
+                            positionTop--;
+                            nextViewHolder = getNextView(parent, positionTop);
+                        } while (nextViewHolder != null && nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() > firstHeader.getHeight() + firstHeader.getTranslationY());
+                        break;
+                    }
+                }
 
 
                 int translationX = parent.getScrollX();
@@ -85,13 +170,30 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
+    private void scrollDirection(RecyclerView parent) {
+
+        if (positionLastItem == -1) {
+            positionLastItem = layoutManager.findLastVisibleItemPosition();
+        }
+
+        mViewHodlerFist = parent.findViewHolderForPosition(positionLastItem);
+
+        if (positionY == -1 || positionY > mViewHodlerFist.itemView.getTop()) {
+            curentScroll = SCROLL_TYPE.UP;
+        } else if (positionY < mViewHodlerFist.itemView.getTop()) {
+            curentScroll = SCROLL_TYPE.DOWN;
+        }
+
+        positionY = mViewHodlerFist.itemView.getTop();
+    }
+
     /**
      * Returns the first item currently in the recyclerview that's not obscured by a header.
      * @param parent
      * @return
      */
     protected RecyclerView.ViewHolder getNextView(RecyclerView parent, int position) {
-        return parent.findViewHolderForPosition(position + 1);
+        return parent.findViewHolderForPosition(position);
     }
 
     protected int getOrientation(RecyclerView parent) {

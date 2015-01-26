@@ -49,7 +49,7 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
         this.mLayoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
         mRecyclerView.addItemDecoration(new ViewHolderParallaxDecoration(this));
-        mRecyclerView.addItemDecoration(new ViewHolderSectionDecoration(this));
+        mRecyclerView.addItemDecoration(new ViewHolderSectionDecoration(this, recyclerView));
 
         getNumberOfSection();
     }
