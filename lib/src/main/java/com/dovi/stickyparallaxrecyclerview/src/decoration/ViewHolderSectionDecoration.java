@@ -13,18 +13,16 @@ import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
 public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
-    private int headerHeight = 0;
-    private int currentPosition;
+    protected int headerHeight = 0;
 
-    private ParallaxRecyclerAdapter mAdapter;
-    private int orientation = -1;
-    private final LongSparseArray<View> mHeaderViews = new LongSparseArray<View>();
-    private  LinearLayoutManager layoutManager;
+    protected ParallaxRecyclerAdapter mAdapter;
+    protected int orientation = -1;
+    protected final LongSparseArray<View> mHeaderViews = new LongSparseArray<View>();
+    protected  LinearLayoutManager layoutManager;
 
     public ViewHolderSectionDecoration(ParallaxRecyclerAdapter mAdapter) {
         this.mAdapter = mAdapter;
     }
-
 
     @Override
     public void onDrawOver(Canvas canvas, RecyclerView parent, RecyclerView.State state) {
@@ -33,32 +31,56 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
         if (parent.getChildCount() > 0 && mAdapter.getItemCount() > 0) {
 
-            final int positionTop = layoutManager.findFirstVisibleItemPosition();
+            int positionTop = layoutManager.findFirstVisibleItemPosition();
+
             final Section section = getHeader(positionTop);
 
             if (section.getHeaderPosition() >= 0 && section.isShowSection()) {
-                View firstHeader = getHeaderView(parent, positionTop);
+                View firstHeader = getHeaderView(parent, section);
 
                 RecyclerView.ViewHolder nextViewHolder = getNextView(parent, positionTop);
+
+//                switch (curentScroll) {
+//                    case UP:{
+//                        do {
+//                            nextViewHolder = getNextView(parent, positionTop);
+//                            positionTop++;
+//                        } while (nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() < firstHeader.getHeight() + firstHeader.getTranslationY());
+//                        break;
+//                    }
+//                    case DOWN:
+//                    {
+//                        do {
+//                            nextViewHolder = getNextView(parent, positionTop);
+//                            positionTop++;
+//                        } while (nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() > firstHeader.getHeight() + firstHeader.getTranslationY());
+//                        break;
+//                    }
+//                }
+
 
                 int translationX = parent.getScrollX();
                 int translationY = parent.getScrollY();
 
                 if (nextViewHolder instanceof ViewHolderSection) {
-                    final View secondeHeader = nextViewHolder.itemView;
+                    final View secondHeader = nextViewHolder.itemView;
 
-                    if (orientation == LinearLayoutManager.VERTICAL && (secondeHeader.getTop() - (firstHeader.getTop() + firstHeader.getHeight()) <= 0)) {
-                        translationY -= (firstHeader.getHeight() - secondeHeader.getTop());
-                    } else if (orientation == LinearLayoutManager.HORIZONTAL && (secondeHeader.getLeft()- (firstHeader.getLeft() + firstHeader.getWidth()) <= 0)){
-                        translationX -= (firstHeader.getWidth() - secondeHeader.getLeft());
+                    if (orientation == LinearLayoutManager.VERTICAL && (secondHeader.getTop() - (firstHeader.getTop() + firstHeader.getHeight()) <= 0)) {
+                        translationY -= (firstHeader.getHeight() - secondHeader.getTop());
+                    } else if (orientation == LinearLayoutManager.HORIZONTAL && (secondHeader.getLeft()- (firstHeader.getLeft() + firstHeader.getWidth()) <= 0)){
+                        translationX -= (firstHeader.getWidth() - secondHeader.getLeft());
                     }
                 }
 
                 canvas.save();
                 canvas.translate(translationX, translationY);
                 firstHeader.draw(canvas);
+                firstHeader.setTranslationY(translationY);
 
                 canvas.restore();
+
+                mHeaderViews.remove(section.getHeaderPosition());
+                mHeaderViews.put(section.getHeaderPosition(), firstHeader);
             }
         }
     }
@@ -68,11 +90,11 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
      * @param parent
      * @return
      */
-    private RecyclerView.ViewHolder getNextView(RecyclerView parent, int position) {
+    protected RecyclerView.ViewHolder getNextView(RecyclerView parent, int position) {
         return parent.findViewHolderForPosition(position + 1);
     }
 
-    private int getOrientation(RecyclerView parent) {
+    protected int getOrientation(RecyclerView parent) {
 
         if (orientation != -1) {
             return orientation;
@@ -93,18 +115,18 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
      * Gets the header view for the associated position.  If it doesn't exist yet, it will be
      * created, measured, and laid out.
      * @param parent
-     * @param position
+     * @param section
      * @return Header view
      */
-    public View getHeaderView(RecyclerView parent, int position) {
-        Section section = getHeader(position);
+    public View getHeaderView(RecyclerView parent, Section section) {
+
         View header = mHeaderViews.get(section.getHeaderPosition());
 
 
         if (header == null) {
             //TODO - recycle views
             ViewHolderSection viewHolder = mAdapter.onCreateViewHolderSection(parent);
-            mAdapter.onBindViewHolderSection(viewHolder, position, section);
+            mAdapter.onBindViewHolderSection(viewHolder, section.getHeaderPosition(), section, -1);
             header = viewHolder.itemView;
 
             if (header.getLayoutParams() == null) {
@@ -131,7 +153,7 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         return header;
     }
 
-    private boolean hasNewHeader(int position) {
+    protected boolean hasNewHeader(int position) {
         Section mSection = null;
         for (int i = 0; i < mAdapter.getSectionList().size(); i++) {
             mSection = (Section)mAdapter.getSectionList().get(i);
@@ -142,15 +164,17 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         return false;
     }
 
-    private Section getHeader(int position){
+    protected Section getHeader(int position){
         Section mSection = null;
         for (int i = 0; i < mAdapter.getSectionList().size(); i++) {
             mSection = (Section)mAdapter.getSectionList().get(i);
-            if (position >= mSection.getHeaderPosition() && position < mSection.getEndRow()) {
-                return mSection;
+//            position >= mSection.getHeaderPosition() &&
+            if (position < mSection.getEndRow()) {
+                break;
             }
+            mSection = null;
         }
-        return null;
+        return mSection;
     }
 
     /**

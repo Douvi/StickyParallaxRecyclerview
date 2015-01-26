@@ -10,6 +10,7 @@ import android.view.animation.TranslateAnimation;
 import com.dovi.stickyparallaxrecyclerview.src.Section;
 import com.dovi.stickyparallaxrecyclerview.src.decoration.ViewHolderParallaxDecoration;
 import com.dovi.stickyparallaxrecyclerview.src.decoration.ViewHolderSectionDecoration;
+import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderNormal;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderParallax;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
@@ -87,7 +88,7 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
     public int getItemViewType(int position) {
 
         if (sectionList.size() == 0 ) {
-            return getViewHolderType(0, position).getValue();
+            return getViewHolderType(0, 0, position).getValue();
         }
 
         for(int i = 0; i < sectionList.size(); i++) {
@@ -96,7 +97,7 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
             if (mSection.getStartRow() > position && mSection.isShowSection()) {
                 return ViewHolderType.SECTION.getValue();
             } else if (position >= mSection.getStartRow() && position < mSection.getEndRow()) {
-                return getViewHolderType(i, position - mSection.getStartRow()).getValue();
+                return getViewHolderType(i, position - mSection.getStartRow(), position).getValue();
             }
         }
 
@@ -127,19 +128,21 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
+        final Section mSection = getHeaderId(position);
 
         if (viewHolder instanceof ViewHolderParallax) {
-            onBindViewHolderParallax((ViewHolderParallax) viewHolder, position, getHeaderId(position));
+            onBindViewHolderParallax((ViewHolderParallax) viewHolder, position, mSection, position - mSection.getStartRow());
             viewHolder.itemView.setTag(-9999, position);
+            translateParallaxReset(viewHolder.itemView);
         } else if (viewHolder instanceof ViewHolderSection) {
-            onBindViewHolderSection((ViewHolderSection) viewHolder, position, getHeaderId(position));
+            onBindViewHolderSection((ViewHolderSection) viewHolder, position, mSection, position - mSection.getStartRow());
             viewHolder.itemView.setTag(-9999, position);
         } else {
-            onBindViewHolderNormal(viewHolder, position, getHeaderId(position));
+            onBindViewHolderNormal((ViewHolderNormal) viewHolder, position, mSection, position - mSection.getStartRow());
             viewHolder.itemView.setTag(-9999, position);
         }
 
-        translateParallaxReset(viewHolder.itemView);
+
     }
 
     public void translateParallaxReset(View view) {
@@ -159,16 +162,16 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
 
     public abstract boolean isSectionWillBeShow(int section);
 
-    public abstract ViewHolderType getViewHolderType(int section, int position);
+    public abstract ViewHolderType getViewHolderType(int section, int positionInSection, int position);
 
-    public abstract RecyclerView.ViewHolder onCreateViewHolderNormal(ViewGroup viewGroup, int type);
-    public abstract void onBindViewHolderNormal(RecyclerView.ViewHolder viewHolder, int position, Section section);
+    public abstract ViewHolderNormal onCreateViewHolderNormal(ViewGroup viewGroup, int type);
+    public abstract void onBindViewHolderNormal(ViewHolderNormal viewHolder, int position, Section section, int positionInSection);
 
     public abstract ViewHolderParallax onCreateViewHolderParallax(ViewGroup viewGroup);
-    public abstract void onBindViewHolderParallax(ViewHolderParallax viewHolder, int position, Section section);
+    public abstract void onBindViewHolderParallax(ViewHolderParallax viewHolder, int position, Section section, int positionInSection);
 
     public abstract ViewHolderSection onCreateViewHolderSection(ViewGroup viewGroup);
-    public abstract void onBindViewHolderSection(ViewHolderSection viewHolder, int position, Section section);
+    public abstract void onBindViewHolderSection(ViewHolderSection viewHolder, int position, Section section, int positionInSection);
 
 
 

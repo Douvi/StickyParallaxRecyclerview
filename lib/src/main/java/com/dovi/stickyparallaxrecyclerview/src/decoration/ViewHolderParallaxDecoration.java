@@ -10,17 +10,16 @@ import android.view.animation.TranslateAnimation;
 import com.dovi.stickyparallaxrecyclerview.src.Section;
 import com.dovi.stickyparallaxrecyclerview.src.adapter.ParallaxRecyclerAdapter;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderParallax;
-import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
 
 public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
 
-    private final float SCROLL_MULTIPLIER = 0.5f;
-    private ParallaxRecyclerAdapter mAdapter;
-    private int headerHeight = 0;
-    private int orientation = -1;
-    private LinearLayoutManager layoutManager;
-    private int currentPosition;
+    protected final float SCROLL_MULTIPLIER = 0.5f;
+    protected ParallaxRecyclerAdapter mAdapter;
+    protected int headerHeight = 0;
+    protected int orientation = -1;
+    protected LinearLayoutManager layoutManager;
+    protected int currentPosition;
 
     public ViewHolderParallaxDecoration(ParallaxRecyclerAdapter mAdapter) {
         this.mAdapter = mAdapter;
@@ -35,7 +34,7 @@ public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
         onDrawParallax(parent, layoutManager.findFirstVisibleItemPosition(), true);
     }
 
-    private void onDrawParallax(RecyclerView parent, int position, boolean goDeeper){
+    protected void onDrawParallax(RecyclerView parent, int position, boolean goDeeper){
 
         Section section = getHeader(position);
         final RecyclerView.ViewHolder viewHolder = parent.findViewHolderForPosition(position);
@@ -50,14 +49,14 @@ public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
         currentPosition = position;
 
         if (viewHolder instanceof ViewHolderParallax) {
-            translateParallax(parent, viewHolder.itemView, getCorrectHeight(parent, viewHolder.itemView, section.isShowSection()));
-        } else if (goDeeper && viewHolder instanceof ViewHolderSection && goDeeper) {
+            translateParallax(viewHolder.itemView, getCorrectHeight(parent, viewHolder.itemView, section.isShowSection()));
+        } else if (goDeeper) {
             headerHeight = viewHolder.itemView.getHeight();
             onDrawParallax(parent, position+1, false);
         }
     }
 
-    public void translateParallax(RecyclerView parent, View view, float position) {
+    protected void translateParallax(View view, float position) {
         float ofCalculated = position * SCROLL_MULTIPLIER;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -71,21 +70,11 @@ public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
 
     }
 
-    public void translateParallaxReset(View view) {
-        float of = 0;
-        float ofCalculated = of * SCROLL_MULTIPLIER;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            view.setTranslationY(ofCalculated);
-        } else {
-            TranslateAnimation anim = new TranslateAnimation(0, 0, ofCalculated, ofCalculated);
-            anim.setFillAfter(true);
-            anim.setDuration(0);
-            view.startAnimation(anim);
-        }
+    protected void translateParallaxReset(View view) {
+        translateParallax(view, 0);
     }
 
-    private int getOrientation(RecyclerView parent) {
+    protected int getOrientation(RecyclerView parent) {
 
         if (orientation != -1) {
             return orientation;
@@ -100,7 +89,7 @@ public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-    private Section getHeader(int position){
+    protected Section getHeader(int position){
         Section mSection = null;
         for (int i = 0; i < mAdapter.getSectionList().size(); i++) {
             mSection = (Section)mAdapter.getSectionList().get(i);
@@ -111,7 +100,7 @@ public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
         return null;
     }
 
-    private int getCorrectHeight(RecyclerView parent, View view, boolean isSection) {
+    protected int getCorrectHeight(RecyclerView parent, View view, boolean isSection) {
         if (isSection) {
 
             if (view.getTop() >= headerHeight) {

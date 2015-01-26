@@ -6,10 +6,12 @@ import android.view.View;
 /**
  * Created by Doudou on 2015-01-25.
  */
-public class ViewHolderNormal extends RecyclerView.ViewHolder {
+public abstract class ViewHolderNormal extends RecyclerView.ViewHolder {
 
     public ViewHolderNormal(View itemView) {
         super(itemView);
     }
+
+    public abstract void bind(int section, int position);
 
 }
