@@ -115,45 +115,72 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         if (parent.getChildCount() > 0 && mAdapter.getItemCount() > 0) {
 
             int positionTop = layoutManager.findFirstVisibleItemPosition();
-//            scrollDirection(parent);
-
-
-            final Section section = getHeader(positionTop);
+            Section section = getHeader(positionTop);
+            RecyclerView.ViewHolder nextViewHolder = getNextView(parent, positionTop);
 
             if (section.getHeaderPosition() >= 0 && section.isShowSection()) {
+
+                boolean isNewSection = false;
+
                 View firstHeader = getHeaderView(parent, section);
 
-                RecyclerView.ViewHolder nextViewHolder = getNextView(parent, positionTop);
-
                 switch (curentScroll) {
-                    case UP:{
+                    case DOWN:
+                    {
+//                        final View secondHeader;
+
+                        if (!(nextViewHolder instanceof ViewHolderSection)) {
+
+                            if (section.getHeaderPosition() == 0) {
+                                nextViewHolder = getNextView(parent, 0);
+                            } else if (getNextView(parent, getHeader(section.getEndRow()+1).getHeaderPosition()) != null){
+                                nextViewHolder = getNextView(parent, getHeader(section.getEndRow()+1).getHeaderPosition());
+                            }
+                        }
+
+                        if (nextViewHolder == null) {
+                            Log.i("", "");
+                        }
+
+                        if ((nextViewHolder != null && orientation == LinearLayoutManager.VERTICAL && nextViewHolder.itemView.getY() >= 0 && nextViewHolder.itemView.getY() < firstHeader.getHeight()) || (nextViewHolder != null && orientation == LinearLayoutManager.HORIZONTAL && nextViewHolder.itemView.getX() >= 0 && nextViewHolder.itemView.getX() < firstHeader.getWidth())) {
+                            isNewSection = true;
+//                            positionTop--;
+//                            section = getHeader(positionTop);
+//                            firstHeader = getHeaderView(parent, section);
+                            break;
+                        } else {
+                            isNewSection = false;
+                        }
+                    }
+                    case UP:
                         do {
                             positionTop++;
                             nextViewHolder = getNextView(parent, positionTop);
                         } while (nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() < firstHeader.getHeight() + firstHeader.getTranslationY());
                         break;
-                    }
-                    case DOWN:
-                    {
-                        do {
-                            positionTop--;
-                            nextViewHolder = getNextView(parent, positionTop);
-                        } while (nextViewHolder != null && nextViewHolder.itemView.getHeight() + nextViewHolder.itemView.getTop() > firstHeader.getHeight() + firstHeader.getTranslationY());
-                        break;
-                    }
                 }
-
 
                 int translationX = parent.getScrollX();
                 int translationY = parent.getScrollY();
 
                 if (nextViewHolder instanceof ViewHolderSection) {
-                    final View secondHeader = nextViewHolder.itemView;
 
-                    if (orientation == LinearLayoutManager.VERTICAL && (secondHeader.getTop() - (firstHeader.getTop() + firstHeader.getHeight()) <= 0)) {
-                        translationY -= (firstHeader.getHeight() - secondHeader.getTop());
-                    } else if (orientation == LinearLayoutManager.HORIZONTAL && (secondHeader.getLeft()- (firstHeader.getLeft() + firstHeader.getWidth()) <= 0)){
-                        translationX -= (firstHeader.getWidth() - secondHeader.getLeft());
+                    if (isNewSection) {
+
+                        if (orientation == LinearLayoutManager.VERTICAL) {
+                            translationY =+ ((int)nextViewHolder.itemView.getY() - firstHeader.getHeight());
+                        } else if (orientation == LinearLayoutManager.HORIZONTAL){
+                            translationX =+ (int)nextViewHolder.itemView.getX();
+                        }
+
+                    } else {
+                        final View secondHeader = nextViewHolder.itemView;
+
+                        if (orientation == LinearLayoutManager.VERTICAL && (secondHeader.getTop() - (firstHeader.getTop() + firstHeader.getHeight()) <= 0)) {
+                            translationY -= (firstHeader.getHeight() - secondHeader.getTop());
+                        } else if (orientation == LinearLayoutManager.HORIZONTAL && (secondHeader.getLeft()- (firstHeader.getLeft() + firstHeader.getWidth()) <= 0)){
+                            translationX -= (firstHeader.getWidth() - secondHeader.getLeft());
+                        }
                     }
                 }
 
@@ -166,25 +193,10 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
                 mHeaderViews.remove(section.getHeaderPosition());
                 mHeaderViews.put(section.getHeaderPosition(), firstHeader);
+
+
             }
         }
-    }
-
-    private void scrollDirection(RecyclerView parent) {
-
-        if (positionLastItem == -1) {
-            positionLastItem = layoutManager.findLastVisibleItemPosition();
-        }
-
-        mViewHodlerFist = parent.findViewHolderForPosition(positionLastItem);
-
-        if (positionY == -1 || positionY > mViewHodlerFist.itemView.getTop()) {
-            curentScroll = SCROLL_TYPE.UP;
-        } else if (positionY < mViewHodlerFist.itemView.getTop()) {
-            curentScroll = SCROLL_TYPE.DOWN;
-        }
-
-        positionY = mViewHodlerFist.itemView.getTop();
     }
 
     /**
