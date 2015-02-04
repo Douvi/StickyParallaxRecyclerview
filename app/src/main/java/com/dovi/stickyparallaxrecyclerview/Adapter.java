@@ -34,6 +34,11 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public boolean isSectionWillBeShow(int section) {
+
+        if (section == 0) {
+            return false;
+        }
+
         return true;
     }
 
@@ -102,11 +107,11 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
 
         MyViewHolderParallax(View itemView) {
             super(itemView);
-            mText = (TextView)itemView.findViewById(R.id.text);
+//            mText = (TextView)itemView.findViewById(R.id.text);
         }
 
         public void bind(int section, int position){
-            mText.setText("Row Parallax | section : "+section + " - position :"+position);
+//            mText.setText("Row Parallax | section : "+section + " - position :"+position);
         }
     }
 

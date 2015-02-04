@@ -5,9 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.LongSparseArray;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.dovi.stickyparallaxrecyclerview.src.Section;
 import com.dovi.stickyparallaxrecyclerview.src.adapter.ParallaxRecyclerAdapter;
@@ -19,18 +21,13 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         DOWN, UP;
     }
 
-    protected int headerHeight = 0;
-
     protected ParallaxRecyclerAdapter mAdapter;
     protected int orientation = -1;
     protected final LongSparseArray<View> mHeaderViews = new LongSparseArray<View>();
     protected LinearLayoutManager layoutManager;
     private SCROLL_TYPE curentScroll = SCROLL_TYPE.UP;
-    private RecyclerView.ViewHolder mViewHodlerFist;
-    private int positionY = -1;
-    private int positionLastItem = -1;
     private String TAG = ViewHolderSectionDecoration.class.getSimpleName();
-    float initialX, initialY;
+    private float initialX, initialY;
 
     public ViewHolderSectionDecoration(ParallaxRecyclerAdapter mAdapter, RecyclerView parent) {
         this.mAdapter = mAdapter;
@@ -51,11 +48,9 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        float finalX = event.getX();
                         float finalY = event.getY();
 
                         if (initialY < finalY) {
-//                            Log.d(TAG, "Up to Down swipe performed");
                             curentScroll = SCROLL_TYPE.DOWN;
                         }
 
@@ -68,36 +63,10 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
                         initialY = event.getY();
                         break;
 
-//                    case MotionEvent.ACTION_UP:
-//
-//
-//                        Log.d(TAG, "Action was UP");
-//
-//                        if (initialX < finalX) {
-//                            Log.d(TAG, "Left to Right swipe performed");
-//                        }
-//
-//                        if (initialX > finalX) {
-//                            Log.d(TAG, "Right to Left swipe performed");
-//                        }
-//
-//                        if (initialY < finalY) {
-//                            Log.d(TAG, "Up to Down swipe performed");
-//                        }
-//
-//                        if (initialY > finalY) {
-//                            Log.d(TAG, "Down to Up swipe performed");
-//                        }
-//
-//                        break;
-
                     case MotionEvent.ACTION_CANCEL:
                         Log.d(TAG,"Action was CANCEL");
                         break;
 
-//                    case MotionEvent.ACTION_OUTSIDE:
-//                        Log.d(TAG, "Movement occurred outside bounds of current screen element");
-//                        break;
                 }
 
 
@@ -127,7 +96,6 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
                 switch (curentScroll) {
                     case DOWN:
                     {
-//                        final View secondHeader;
 
                         if (!(nextViewHolder instanceof ViewHolderSection)) {
 
@@ -144,9 +112,6 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
                         if ((nextViewHolder != null && orientation == LinearLayoutManager.VERTICAL && nextViewHolder.itemView.getY() >= 0 && nextViewHolder.itemView.getY() < firstHeader.getHeight()) || (nextViewHolder != null && orientation == LinearLayoutManager.HORIZONTAL && nextViewHolder.itemView.getX() >= 0 && nextViewHolder.itemView.getX() < firstHeader.getWidth())) {
                             isNewSection = true;
-//                            positionTop--;
-//                            section = getHeader(positionTop);
-//                            firstHeader = getHeaderView(parent, section);
                             break;
                         } else {
                             isNewSection = false;
@@ -236,16 +201,23 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
 
         View header = mHeaderViews.get(section.getHeaderPosition());
 
-
         if (header == null) {
             //TODO - recycle views
             ViewHolderSection viewHolder = mAdapter.onCreateViewHolderSection(parent);
             mAdapter.onBindViewHolderSection(viewHolder, section.getHeaderPosition(), section, -1);
             header = viewHolder.itemView;
 
-            if (header.getLayoutParams() == null) {
-                header.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            RelativeLayout mRelativeLayout = new RelativeLayout(parent.getContext());
+
+            RelativeLayout.LayoutParams mLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            mLayoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+
+            if (header.getLayoutParams() != null) {
+                ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) header.getLayoutParams();
+                mLayoutParams.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, lp.bottomMargin);
             }
+
+            header.setLayoutParams(mLayoutParams);
 
             int widthSpec;
             int heightSpec;
@@ -258,11 +230,15 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
                 heightSpec = View.MeasureSpec.makeMeasureSpec(parent.getHeight(), View.MeasureSpec.EXACTLY);
             }
 
+            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) header.getLayoutParams();
             int childWidth = ViewGroup.getChildMeasureSpec(widthSpec, parent.getPaddingLeft() + parent.getPaddingRight(), header.getLayoutParams().width);
             int childHeight = ViewGroup.getChildMeasureSpec(heightSpec, parent.getPaddingTop() + parent.getPaddingBottom(), header.getLayoutParams().height);
-            header.measure(childWidth, childHeight);
-            header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
-            mHeaderViews.put(section.getHeaderPosition(), header);
+
+            mRelativeLayout.addView(header);
+            mRelativeLayout.measure(childWidth, childHeight);
+            mRelativeLayout.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
+
+            return mRelativeLayout;
         }
         return header;
     }
@@ -282,7 +258,6 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         Section mSection = null;
         for (int i = 0; i < mAdapter.getSectionList().size(); i++) {
             mSection = (Section)mAdapter.getSectionList().get(i);
-//            position >= mSection.getHeaderPosition() &&
             if (position < mSection.getEndRow()) {
                 break;
             }
