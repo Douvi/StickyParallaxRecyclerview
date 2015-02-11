@@ -8,19 +8,12 @@ import android.widget.TextView;
 
 import com.dovi.stickyparallaxrecyclerview.sample.R;
 import com.dovi.stickyparallaxrecyclerview.src.Section;
-import com.dovi.stickyparallaxrecyclerview.src.adapter.ParallaxRecyclerAdapter;
+import com.dovi.stickyparallaxrecyclerview.src.adapter.SectionRecyclerAdapter;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderNormal;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderParallax;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
-import java.util.List;
-
-public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
-
-
-    public Adapter(RecyclerView recyclerView, List<RecyclerView.ViewHolder> data) {
-        super(recyclerView, data);
-    }
+public class Adapter extends SectionRecyclerAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public int numberOfSection() {
@@ -60,7 +53,7 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolderNormal(ViewHolderNormal viewHolder, int position, Section section, int positionInSection) {
-        viewHolder.bind(section.getSectionId(), positionInSection);
+        viewHolder.bind(section.getSectionId(), positionInSection, null);
     }
 
     @Override
@@ -71,7 +64,7 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolderParallax(ViewHolderParallax viewHolder, int position, Section section, int positionInSection) {
-        viewHolder.bind(section.getSectionId(), positionInSection);
+        viewHolder.bind(section.getSectionId(), positionInSection, null);
     }
 
     @Override
@@ -82,7 +75,7 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolderSection(ViewHolderSection viewHolder, int position, Section section, int positionInSection) {
-        viewHolder.bind(section.getSectionId(), position);
+        viewHolder.bind(section.getSectionId(), position, null);
     }
 
 
@@ -96,7 +89,8 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
             mText = (TextView)itemView.findViewById(R.id.text);
         }
 
-        public void bind(int section, int position){
+        @Override
+        public void bind(int section, int position, Object objects) {
             mText.setText("Row Normal | section : "+section + " - position :"+position);
         }
     }
@@ -107,11 +101,12 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
 
         MyViewHolderParallax(View itemView) {
             super(itemView);
-//            mText = (TextView)itemView.findViewById(R.id.text);
+            mText = (TextView)itemView.findViewById(R.id.text);
         }
 
-        public void bind(int section, int position){
-//            mText.setText("Row Parallax | section : "+section + " - position :"+position);
+        @Override
+        public void bind(int section, int position, Object objects) {
+            mText.setText("Row Parallax | section : "+section + " - position :"+position);
         }
     }
 
@@ -124,7 +119,8 @@ public class Adapter extends ParallaxRecyclerAdapter<RecyclerView.ViewHolder> {
             mText = (TextView)itemView.findViewById(R.id.text);
         }
 
-        public void bind(int section, int position){
+        @Override
+        public void bind(int section, int position, Object objects) {
             if (position == 20) {
                 mText.setText("Row Section | blablba blkbaiub position blablba blkbaiub position blablba blkbaiub position blablba blkbaiub position :"+position);
             } else {

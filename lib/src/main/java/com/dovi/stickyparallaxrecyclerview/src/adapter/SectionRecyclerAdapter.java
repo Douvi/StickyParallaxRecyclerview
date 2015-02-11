@@ -7,28 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
-import com.claroidiomas.clarobr.android.view.recycler.Section;
-import com.claroidiomas.clarobr.android.view.recycler.ViewHolderNormal;
-import com.claroidiomas.clarobr.android.view.recycler.ViewHolderParallax;
-import com.claroidiomas.clarobr.android.view.recycler.ViewHolderSection;
+import com.dovi.stickyparallaxrecyclerview.src.Section;
+import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderNormal;
+import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderParallax;
+import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by poliveira on 03/11/2014.
- */
 public abstract class SectionRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final float SCROLL_MULTIPLIER = 0.5f;
 
-//    private final RecyclerView mRecyclerView;
-//    private final LinearLayoutManager mLayoutManager;
-//    private List<T> mData;
+    private final float SCROLL_MULTIPLIER = 0.5f;
     private Context mContext;
     private final List<Section> sectionList = new ArrayList<Section>();
-
-
 
     public static class ViewHolderType {
         public static final ViewHolderType PARALLAX = new ViewHolderType(0);
@@ -170,30 +162,6 @@ public abstract class SectionRecyclerAdapter<T> extends RecyclerView.Adapter<Rec
         getNumberOfSection();
         notifyDataSetChanged();
     }
-
-//    public List<T> getData() {
-//        return mData;
-//    }
-//
-//    public void setData(List<T> data) {
-//        mData = data;
-//        notifyDataChanged();
-//    }
-//
-//    public void addItem(T item, int position) {
-//        mData.add(position, item);
-//        notifyItemInserted(position);
-//        notifyItemInserted(position + 1);
-//    }
-//
-//    public void removeItem(T item) {
-//        int position = mData.indexOf(item);
-//        if (position < 0)
-//            return;
-//        mData.remove(item);
-//        notifyItemRemoved(position + 1);
-//        notifyItemRemoved(position);
-//    }
 
     public Section getHeaderId(int position){
         Section mSection = null;

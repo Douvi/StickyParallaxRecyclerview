@@ -12,6 +12,6 @@ public abstract class ViewHolderNormal extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public abstract void bind(int section, int position);
+    public abstract void bind(int section, int position, Object objects);
 
 }
