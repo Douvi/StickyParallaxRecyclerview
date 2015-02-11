@@ -1,29 +1,31 @@
 package com.dovi.stickyparallaxrecyclerview.src.adapter;
 
+import android.content.Context;
 import android.os.Build;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 
-import com.dovi.stickyparallaxrecyclerview.src.Section;
-import com.dovi.stickyparallaxrecyclerview.src.decoration.ViewHolderParallaxDecoration;
-import com.dovi.stickyparallaxrecyclerview.src.decoration.ViewHolderSectionDecoration;
-import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderNormal;
-import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderParallax;
-import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
+import com.claroidiomas.clarobr.android.view.recycler.Section;
+import com.claroidiomas.clarobr.android.view.recycler.ViewHolderNormal;
+import com.claroidiomas.clarobr.android.view.recycler.ViewHolderParallax;
+import com.claroidiomas.clarobr.android.view.recycler.ViewHolderSection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+/**
+ * Created by poliveira on 03/11/2014.
+ */
+public abstract class SectionRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final float SCROLL_MULTIPLIER = 0.5f;
 
-    private final RecyclerView mRecyclerView;
-    private final LinearLayoutManager mLayoutManager;
-    private List<T> mData;
-    private int currentPosition = -1;
+//    private final RecyclerView mRecyclerView;
+//    private final LinearLayoutManager mLayoutManager;
+//    private List<T> mData;
+    private Context mContext;
     private final List<Section> sectionList = new ArrayList<Section>();
 
 
@@ -41,17 +43,6 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
         public int getValue(){
             return value;
         }
-    }
-
-    protected ParallaxRecyclerAdapter(RecyclerView recyclerView, List<T> data) {
-        this.mRecyclerView = recyclerView;
-        this.mData = data;
-        this.mLayoutManager = (LinearLayoutManager)mRecyclerView.getLayoutManager();
-
-        mRecyclerView.addItemDecoration(new ViewHolderParallaxDecoration(this));
-        mRecyclerView.addItemDecoration(new ViewHolderSectionDecoration(this, recyclerView));
-
-        getNumberOfSection();
     }
 
     @Override
@@ -107,6 +98,7 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
     public void getNumberOfSection(){
         final int sections = numberOfSection();
 
+        sectionList.clear();
         for(int i = 0; i < sections; i++) {
             sectionList.add(new Section());
         }
@@ -174,34 +166,36 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
     public abstract void onBindViewHolderSection(ViewHolderSection viewHolder, int position, Section section, int positionInSection);
 
 
-
-
-
-    public List<T> getData() {
-        return mData;
-    }
-
-    public void setData(List<T> data) {
-        mData = data;
+    public void notifyDataChanged() {
+        getNumberOfSection();
         notifyDataSetChanged();
     }
 
-    public void addItem(T item, int position) {
-        mData.add(position, item);
-        notifyItemInserted(position);
-        notifyItemInserted(position + 1);
-    }
+//    public List<T> getData() {
+//        return mData;
+//    }
+//
+//    public void setData(List<T> data) {
+//        mData = data;
+//        notifyDataChanged();
+//    }
+//
+//    public void addItem(T item, int position) {
+//        mData.add(position, item);
+//        notifyItemInserted(position);
+//        notifyItemInserted(position + 1);
+//    }
+//
+//    public void removeItem(T item) {
+//        int position = mData.indexOf(item);
+//        if (position < 0)
+//            return;
+//        mData.remove(item);
+//        notifyItemRemoved(position + 1);
+//        notifyItemRemoved(position);
+//    }
 
-    public void removeItem(T item) {
-        int position = mData.indexOf(item);
-        if (position < 0)
-            return;
-        mData.remove(item);
-        notifyItemRemoved(position + 1);
-        notifyItemRemoved(position);
-    }
-
-    private Section getHeaderId(int position){
+    public Section getHeaderId(int position){
         Section mSection = null;
         for (int i = 0; i < getSectionList().size(); i++) {
             mSection = (Section)getSectionList().get(i);
@@ -212,8 +206,23 @@ public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<Re
         return null;
     }
 
+    public boolean isHeader(int position) {
+        Section mSection;
+        for (int i = 0; i < getSectionList().size(); i++) {
+            mSection = getSectionList().get(i);
+            if (position == mSection.getHeaderPosition()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public List<Section> getSectionList() {
         return sectionList;
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 }
