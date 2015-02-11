@@ -1,4 +1,4 @@
-<<<<<<< lt application files
+# Built application files
 *.apk
 *.ap_
 
@@ -24,15 +24,4 @@ local.properties
 proguard/
 
 # Log Files
-*.logHEAD
-lib/build/
-build/
-=======
-
-# GRADEL
-.gradle/*
-.idea/*
-
-# PROJECT
-build/*
-lib/build/*
+*.log
