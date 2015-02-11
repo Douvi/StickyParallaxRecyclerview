@@ -30,9 +30,9 @@ build/
 =======
 
 # GRADEL
-.gradle
-.idea
+.gradle/*
+.idea/*
 
 # PROJECT
-build/
-lib/build/
+build/*
+lib/build/*
