@@ -17,4 +17,4 @@
            android:interpolator="@android:anim/decelerate_interpolator"
            android:fromYDelta="50%p" android:toYDelta="0"
            android:duration="@android:integer/config_mediumAnimTime"/>
-<!-- From: file:/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/anim/abc_slide_in_bottom.xml -->
+<!-- From: file:/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/anim/abc_slide_in_bottom.xml -->

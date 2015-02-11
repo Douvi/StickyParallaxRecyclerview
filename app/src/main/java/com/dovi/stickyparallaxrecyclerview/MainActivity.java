@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dovi.stickyparallaxrecyclerview.sample.R;
+import com.dovi.stickyparallaxrecyclerview.src.decoration.ViewHolderParallaxDecoration;
+import com.dovi.stickyparallaxrecyclerview.src.decoration.ViewHolderSectionDecoration;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -23,7 +25,10 @@ public class MainActivity extends ActionBarActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
 
-        mAdapter = new Adapter(mRecyclerView, null);
+        mAdapter = new Adapter();
+
+        mRecyclerView.addItemDecoration(new ViewHolderParallaxDecoration(mAdapter));
+        mRecyclerView.addItemDecoration(new ViewHolderSectionDecoration(mAdapter, mRecyclerView));
         mRecyclerView.setAdapter(mAdapter);
     }
 

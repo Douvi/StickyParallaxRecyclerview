@@ -2,46 +2,46 @@
 <items version="2" >
 
     <item
-        jar="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-437fe4d2a6d15a63e3ab504ffdd274170d3d685b.jar" />
-    </item>
-    <item
-        jar="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/StickyParallaxRecyclerview/lib/unspecified/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="0fe484dc720be30b7e6acd4ef38536982d4c2e65">
-        <dex dex="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-0d0212c1c77fb048e4aafd191a9435c3a539fc27.jar" />
-    </item>
-    <item
-        jar="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-3c88ed66f9d9275ae1e1e3ea123d8270afd90ef4.jar" />
-    </item>
-    <item
-        jar="/Users/edouardroussillon/Documents/tools/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-ebc5441a84a8d905ee9c012200ea543259b6d988.jar" />
-    </item>
-    <item
-        jar="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/classes.jar"
+        jar="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-696017308b1378d9c4c9da19942a059a91fcbb9d.jar" />
+        <dex dex="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-60b1946bc7be873c0232584493d4eeed7dae1923.jar" />
     </item>
     <item
-        jar="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jar="/Users/Doudou/Documents/Company_DOVI/Languages/Android/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-887c8ad721589e3bbd601ec8993caf9c8afeb23e.jar" />
+    </item>
+    <item
+        jar="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-c19837a4f078a7b8478f06279ee4863459dac960.jar" />
+        <dex dex="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-d160bf695b1d7d7b6f93f344fb40dcb054db4a5a.jar" />
+    </item>
+    <item
+        jar="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/StickyParallaxRecyclerview/lib/unspecified/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="c11e4d8accb2853f470ba84617e877d30f07397e">
+        <dex dex="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-5cdfe508fb9adf69bf4864e1448c819c562ab00c.jar" />
+    </item>
+    <item
+        jar="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-3a8dd1cbcf31923086618445e974e44195096a49.jar" />
+    </item>
+    <item
+        jar="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/app/build/intermediates/pre-dexed/debug/classes-c530863121adcd1cf402e2c301969c0de1d9e2cf.jar" />
     </item>
 
 </items>

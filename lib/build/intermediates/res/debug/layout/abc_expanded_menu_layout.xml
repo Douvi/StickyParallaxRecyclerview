@@ -20,4 +20,4 @@
         android:layout_width="?attr/panelMenuListWidth"
         android:layout_height="wrap_content"
         android:background="?attr/panelBackground"/>
-<!-- From: file:/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/abc_expanded_menu_layout.xml -->
+<!-- From: file:/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/abc_expanded_menu_layout.xml -->

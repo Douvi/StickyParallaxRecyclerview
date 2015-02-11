@@ -5,14 +5,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.LongSparseArray;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.dovi.stickyparallaxrecyclerview.src.Section;
-import com.dovi.stickyparallaxrecyclerview.src.adapter.ParallaxRecyclerAdapter;
+import com.dovi.stickyparallaxrecyclerview.src.adapter.SectionRecyclerAdapter;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderSection;
 
 public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
@@ -21,7 +20,7 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
         DOWN, UP;
     }
 
-    protected ParallaxRecyclerAdapter mAdapter;
+    protected SectionRecyclerAdapter mAdapter;
     protected int orientation = -1;
     protected final LongSparseArray<View> mHeaderViews = new LongSparseArray<View>();
     protected LinearLayoutManager layoutManager;
@@ -29,7 +28,7 @@ public class ViewHolderSectionDecoration extends RecyclerView.ItemDecoration {
     private String TAG = ViewHolderSectionDecoration.class.getSimpleName();
     private float initialX, initialY;
 
-    public ViewHolderSectionDecoration(ParallaxRecyclerAdapter mAdapter, RecyclerView parent) {
+    public ViewHolderSectionDecoration(SectionRecyclerAdapter mAdapter, RecyclerView parent) {
         this.mAdapter = mAdapter;
 
         parent.setOnTouchListener(new View.OnTouchListener() {

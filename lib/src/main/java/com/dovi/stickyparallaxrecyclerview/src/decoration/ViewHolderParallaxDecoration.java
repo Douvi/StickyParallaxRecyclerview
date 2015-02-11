@@ -8,20 +8,20 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 
 import com.dovi.stickyparallaxrecyclerview.src.Section;
-import com.dovi.stickyparallaxrecyclerview.src.adapter.ParallaxRecyclerAdapter;
+import com.dovi.stickyparallaxrecyclerview.src.adapter.SectionRecyclerAdapter;
 import com.dovi.stickyparallaxrecyclerview.src.holder.ViewHolderParallax;
 
 
 public class ViewHolderParallaxDecoration extends RecyclerView.ItemDecoration {
 
     protected final float SCROLL_MULTIPLIER = 0.5f;
-    protected ParallaxRecyclerAdapter mAdapter;
+    protected SectionRecyclerAdapter mAdapter;
     protected int headerHeight = 0;
     protected int orientation = -1;
     protected LinearLayoutManager layoutManager;
     protected int currentPosition;
 
-    public ViewHolderParallaxDecoration(ParallaxRecyclerAdapter mAdapter) {
+    public ViewHolderParallaxDecoration(SectionRecyclerAdapter mAdapter) {
         this.mAdapter = mAdapter;
     }
 

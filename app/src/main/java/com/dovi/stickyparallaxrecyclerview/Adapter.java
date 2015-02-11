@@ -101,12 +101,12 @@ public class Adapter extends SectionRecyclerAdapter<RecyclerView.ViewHolder> {
 
         MyViewHolderParallax(View itemView) {
             super(itemView);
-            mText = (TextView)itemView.findViewById(R.id.text);
+//            mText = (TextView)itemView.findViewById(R.id.text);
         }
 
         @Override
         public void bind(int section, int position, Object objects) {
-            mText.setText("Row Parallax | section : "+section + " - position :"+position);
+//            mText.setText("Row Parallax | section : "+section + " - position :"+position);
         }
     }
 

@@ -23,4 +23,4 @@
              android:src="?attr/actionModeCloseDrawable"
              style="?attr/actionModeCloseButtonStyle"
              android:layout_width="wrap_content"
-             android:layout_height="match_parent" /><!-- From: file:/Users/edouardroussillon/Documents/workpaces/tools/StickyParallaxRecyclerview/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/abc_action_mode_close_item_material.xml -->
+             android:layout_height="match_parent" /><!-- From: file:/Users/Doudou/Documents/Company_DOVI/Languages/Android/workspaces/workspace-AndroidStudio/StickyParallaxRecyclerview/lib/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/abc_action_mode_close_item_material.xml -->

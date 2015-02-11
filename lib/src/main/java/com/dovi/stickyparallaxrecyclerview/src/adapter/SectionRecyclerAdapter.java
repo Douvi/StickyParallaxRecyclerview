@@ -39,6 +39,8 @@ public abstract class SectionRecyclerAdapter<T> extends RecyclerView.Adapter<Rec
 
     @Override
     public int getItemCount() {
+        getNumberOfSection();
+
         if (sectionList.size() > 0 ) {
             int totalRow = 0;
 
@@ -157,11 +159,6 @@ public abstract class SectionRecyclerAdapter<T> extends RecyclerView.Adapter<Rec
     public abstract ViewHolderSection onCreateViewHolderSection(ViewGroup viewGroup);
     public abstract void onBindViewHolderSection(ViewHolderSection viewHolder, int position, Section section, int positionInSection);
 
-
-    public void notifyDataChanged() {
-        getNumberOfSection();
-        notifyDataSetChanged();
-    }
 
     public Section getHeaderId(int position){
         Section mSection = null;
